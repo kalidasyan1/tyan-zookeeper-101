@@ -85,6 +85,32 @@ Simulates three nodes competing for cluster leadership. Only one node is leader 
 
 ---
 
+## Project 3: Dynamic Configuration Management (`config_client.py` and `config_updater.py`)
+1. Start the client:
+   ```bash
+   python config_client.py
+   # Open 2-3 terminals and run the same command in each
+   ```
+2. Start the updater:
+   ```bash
+   python config_updater.py
+   ```
+3. Type config values into the updater terminal.
+	•	Each time you hit enter, all clients instantly receive and print the new config—no restarts, no polling.
+
+4. Inspect in ZooKeeper CLI (Optional)
+   ```bash
+   zkCli
+   ls /configs
+   get /configs/demo
+   ```
+
+### How it works
+- config_client.py sets a watch on /configs/demo.
+When the value changes, ZooKeeper notifies the client and the client re-registers the watch (see code comments).
+- config_updater.py simply updates the config znode.
+All clients get notified immediately.
+
 ## ZooKeeper CLI: Inspecting Lock/Election Status
 
 You can use the ZooKeeper CLI to observe the znodes and coordination:
